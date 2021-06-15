@@ -15,11 +15,12 @@ namespace SendMe.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            var cosmosDBConnectionString = Environment.GetEnvironmentVariable("COSMOSDB_CONNECTIONSTRING");
             optionsBuilder.LogTo(Console.WriteLine);
             optionsBuilder.EnableDetailedErrors(true);
             optionsBuilder.EnableSensitiveDataLogging(true);
             optionsBuilder.UseCosmos(
-                "secret",
+                cosmosDBConnectionString,
                 databaseName: "AddressDB",
                 options =>
                 {
