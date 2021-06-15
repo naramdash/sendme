@@ -15,7 +15,7 @@ namespace SendMe.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var cosmosDBConnectionString = Environment.GetEnvironmentVariable("COSMOSDB_CONNECTIONSTRING");
+            var cosmosDBConnectionString = Environment.GetEnvironmentVariable("CUSTOMCONNSTR_COSMOSDB");
             optionsBuilder.LogTo(Console.WriteLine);
             optionsBuilder.EnableDetailedErrors(true);
             optionsBuilder.EnableSensitiveDataLogging(true);
