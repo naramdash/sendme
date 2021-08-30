@@ -4,5 +4,8 @@
       "route": "/to/*",
       "rewrite": "/to/index.html"
     }
-  ]
+  ],
+  "navigationFallback": {
+    "rewrite": "/index.html"
+  }
 }
