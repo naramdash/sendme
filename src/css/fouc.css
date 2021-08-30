@@ -1,0 +1,9 @@
+/* Custom Elements that have not been upgraded and 
+don't have styles attached can still be rendered by the browser 
+but they likely do not look how they are supposed to. 
+To avoid a flash of un-styled content (FOUC), 
+visually hide Custom Elements that are not yet defined: */
+
+:not(:defined) {
+  visibility: hidden;
+}
