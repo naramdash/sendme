@@ -1,7 +1,7 @@
 import { CosmosClient } from "@azure/cosmos";
 
 function getLinkContainer() {
-  const CONNECTION_STRING = process.env.CONNECTION_STRING;
+  const CONNECTION_STRING = process.env.CONNECTION_STRING!;
   const client = new CosmosClient(CONNECTION_STRING);
 
   const DATABASE_STRING = "sendme";
