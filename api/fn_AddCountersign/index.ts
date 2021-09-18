@@ -17,7 +17,7 @@ const httpTrigger: AzureFunction = async function (
 ): Promise<void> {
   const container = getCountersignContainer();
 
-  if (isCreateRequest(req.body) === false) {
+  if (!isCreateRequest(req.body)) {
     context.res = {
       status: StatusCodes.BadRequest,
       body: req,
@@ -29,7 +29,10 @@ const httpTrigger: AzureFunction = async function (
 
   context.res = {
     status: 200,
-    body: result,
+    body: {
+      challenge: result.resource?.challenge,
+      password: result.resource?.password,
+    },
   };
 };
 

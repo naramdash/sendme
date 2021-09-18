@@ -16,7 +16,11 @@
           console.log(responseAsJson.password);
           location.replace(responseAsJson.password);
         } catch (e) {
-          console.error("not found");
+          console.error(e, "not found");
+          document.body.insertAdjacentText(
+            "afterbegin",
+            `NOT_FOUND: ${challenge}`
+          );
         }
       })();
     </script>
