@@ -5,7 +5,7 @@
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
-      "route": "links",
+      "route": "countersigns",
       "methods": ["post"]
     },
     {
@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/addLink/index.js"
+  "scriptFile": "../dist/fn_AddCountersign/index.js"
 }
