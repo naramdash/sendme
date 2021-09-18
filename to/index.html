@@ -7,9 +7,18 @@
     <title>to App</title>
   </head>
   <body>
-    <div id="app"></div>
-    <popup-info></popup-info>
-    <script type="module" src="/src/pure-components/PopUpInfo.ts"></script>
+    <script>
+      (async function () {
+        const challenge = location.pathname.split("/").at(-1);
+        try {
+          const response = await fetch(`/api/countersigns/${challenge}`);
+          const responseAsJson = await response.json();
+          console.log(responseAsJson.password);
+          location.replace(responseAsJson.password);
+        } catch (e) {
+          console.error("not found");
+        }
+      })();
+    </script>
   </body>
-  <popup-info></popup-info>
 </html>
