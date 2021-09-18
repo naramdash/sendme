@@ -5,9 +5,14 @@ class CounterSignForm extends HTMLElement {
   constructor() {
     super();
 
-    const [challengeLabel, challengeInput] =
-      createInputWithLabel(CHALLENGE_NAME);
-    const [passwordLabel, passwordInput] = createInputWithLabel(PASSWORD_NAME);
+    const [challengeLabel, challengeInput] = createInputWithLabel(
+      CHALLENGE_NAME,
+      "text"
+    );
+    const [passwordLabel, passwordInput] = createInputWithLabel(
+      PASSWORD_NAME,
+      "url"
+    );
     const submitButton = document.createElement("button");
     submitButton.insertAdjacentText("afterbegin", "submit");
 
@@ -27,13 +32,15 @@ class CounterSignForm extends HTMLElement {
 customElements.define("countersign-form", CounterSignForm);
 
 function createInputWithLabel(
-  labelName: string
+  labelName: string,
+  type: string
 ): [HTMLLabelElement, HTMLInputElement] {
   const label = document.createElement("label");
   const input = document.createElement("input");
   label.insertAdjacentText("afterbegin", labelName);
-  input.setAttribute("type", "text");
+  input.setAttribute("type", type);
   input.setAttribute("name", labelName);
+  input.setAttribute("required", "true");
   label.appendChild(input);
 
   return [label, input];
