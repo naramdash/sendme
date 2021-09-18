@@ -17,7 +17,7 @@ const httpTrigger: AzureFunction = async function (
 ): Promise<void> {
   const container = getCountersignContainer();
 
-  if (!isCreateRequest(req.body)) {
+  if (isCreateRequest(req.body) === false) {
     context.res = {
       status: StatusCodes.BadRequest,
       body: req,
