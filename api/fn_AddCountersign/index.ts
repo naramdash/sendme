@@ -20,6 +20,7 @@ const httpTrigger: AzureFunction = async function (
   if (!isCreateRequest(req.body)) {
     context.res = {
       status: StatusCodes.BadRequest,
+      body: req,
     };
     return;
   }
