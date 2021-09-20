@@ -1,6 +1,11 @@
 import { StatusCodes } from "@azure/cosmos";
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import { getCountersignContainer } from "../common/Countersign";
+import {
+  CountersignWithId,
+  getCountersignContainer,
+  makeQueryByChallenge,
+  mapToCountersignWithId,
+} from "../common/Countersign";
 
 const httpTrigger: AzureFunction = async function (
   context: Context,
@@ -8,30 +13,17 @@ const httpTrigger: AzureFunction = async function (
 ): Promise<void> {
   const challenge = req.query.challenge;
   const sqlQuery = challenge
-    ? {
-        query: "SELECT * FROM countersign c WHERE c.challenge = @challenge",
-        parameters: [
-          {
-            name: "@challenge",
-            value: challenge,
-          },
-        ],
-      }
-    : {
-        query: "SELECT * FROM countersign c",
-      };
+    ? makeQueryByChallenge(challenge)
+    : "SELECT * FROM countersign c";
 
   const countersigns = getCountersignContainer();
   const { resources: results } = await countersigns.items
-    .query(sqlQuery)
+    .query<CountersignWithId>(sqlQuery)
     .fetchAll();
 
   context.res = {
     status: results.length > 0 ? StatusCodes.Ok : StatusCodes.NotFound,
-    body: results.map((r) => ({
-      challenge: r.challenge,
-      password: r.password,
-    })),
+    body: results.map((r) => mapToCountersignWithId(r)),
   };
 };
 

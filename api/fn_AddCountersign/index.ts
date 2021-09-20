@@ -1,12 +1,12 @@
 import { StatusCodes } from "@azure/cosmos";
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import {
-  CounterSign,
+  Countersign,
   getCountersignContainer,
   isCounterSign,
 } from "../common/Countersign";
 
-type CreateRequest = CounterSign & {};
+type CreateRequest = Countersign & {};
 function isCreateRequest(o: any): o is CreateRequest {
   return isCounterSign(o);
 }

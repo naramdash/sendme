@@ -1,5 +1,12 @@
+import { createCountersign } from "../common/API";
+import CountersignTable, {
+  TAG_NAME as COUNTERSIGN_TABLE_TAG_NAME,
+} from "./CountersignTable";
+
 const CHALLENGE_NAME = "challenge";
 const PASSWORD_NAME = "password";
+
+const TAG_NAME = "countersign-form";
 
 class CounterSignForm extends HTMLElement {
   constructor() {
@@ -29,7 +36,7 @@ class CounterSignForm extends HTMLElement {
   }
 }
 
-customElements.define("countersign-form", CounterSignForm);
+customElements.define(TAG_NAME, CounterSignForm);
 
 function createInputWithLabel(
   labelName: string,
@@ -58,9 +65,11 @@ function createOnSubmitCreateCountersign(
       password: passwordInput.value,
     };
 
-    await fetch("/api/countersigns", {
-      method: "POST",
-      body: JSON.stringify(request),
-    });
+    await createCountersign(request);
+
+    const table = document.getElementsByTagName(
+      COUNTERSIGN_TABLE_TAG_NAME
+    )[0] as CountersignTable;
+    table.updateCountersigns();
   };
 }

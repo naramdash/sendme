@@ -1,6 +1,11 @@
 import { StatusCodes } from "@azure/cosmos";
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import { getCountersignContainer } from "../common/Countersign";
+import {
+  CountersignWithId,
+  getCountersignContainer,
+  makeQueryByChallenge,
+  mapToCountersignWithId,
+} from "../common/Countersign";
 
 const httpTrigger: AzureFunction = async function (
   context: Context,
@@ -17,15 +22,7 @@ const httpTrigger: AzureFunction = async function (
 
   const countersigns = getCountersignContainer();
   const { resources: results } = await countersigns.items
-    .query({
-      query: `SELECT * FROM countersign c WHERE c.challenge = @challenge`,
-      parameters: [
-        {
-          name: "@challenge",
-          value: challenge,
-        },
-      ],
-    })
+    .query<CountersignWithId>(makeQueryByChallenge(challenge))
     .fetchNext();
 
   if (results.length <= 0) {
@@ -37,7 +34,7 @@ const httpTrigger: AzureFunction = async function (
 
   context.res = {
     status: StatusCodes.Ok /* Defaults to 200 */,
-    body: results[0],
+    body: mapToCountersignWithId(results[0]),
   };
 };
 
