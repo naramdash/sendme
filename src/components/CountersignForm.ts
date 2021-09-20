@@ -6,6 +6,9 @@ import CountersignTable, {
 const CHALLENGE_NAME = "challenge";
 const PASSWORD_NAME = "password";
 
+const CHALLENGE_EXAMPLE = "good-game";
+const PASSWORD_EXAMPLE = "https://store.steampowered.com/app/470310/_/";
+
 const TAG_NAME = "countersign-form";
 
 class CounterSignForm extends HTMLElement {
@@ -14,7 +17,8 @@ class CounterSignForm extends HTMLElement {
 
     const [challengeLabel, challengeInput] = createInputWithLabel(
       CHALLENGE_NAME,
-      "text"
+      "text",
+      CHALLENGE_EXAMPLE
     );
     challengeInput.addEventListener("input", function () {
       this.value = this.value
@@ -25,8 +29,10 @@ class CounterSignForm extends HTMLElement {
 
     const [passwordLabel, passwordInput] = createInputWithLabel(
       PASSWORD_NAME,
-      "url"
+      "url",
+      PASSWORD_EXAMPLE
     );
+
     const submitButton = document.createElement("button");
     submitButton.insertAdjacentText("afterbegin", "submit");
 
@@ -42,20 +48,23 @@ class CounterSignForm extends HTMLElement {
     shadow.appendChild(form);
   }
 }
+
 if (!customElements.get(TAG_NAME)) {
   customElements.define(TAG_NAME, CounterSignForm);
 }
 
 function createInputWithLabel(
   labelName: string,
-  type: string
+  type: string,
+  placeholder: string
 ): [HTMLLabelElement, HTMLInputElement] {
   const label = document.createElement("label");
   const input = document.createElement("input");
   label.insertAdjacentText("afterbegin", labelName);
   input.setAttribute("type", type);
   input.setAttribute("name", labelName);
-  input.setAttribute("required", "true");
+  input.setAttribute("required", "");
+  input.setAttribute("placeholder", placeholder);
   label.appendChild(input);
 
   return [label, input];
