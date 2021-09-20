@@ -4,8 +4,8 @@ import {
   CountersignWithId,
   getCountersignContainer,
   makeQueryByChallenge,
-  mapToCountersignWithId,
 } from "../common/Countersign";
+import { mapTo } from "../common/Functions";
 
 const httpTrigger: AzureFunction = async function (
   context: Context,
@@ -34,7 +34,7 @@ const httpTrigger: AzureFunction = async function (
 
   context.res = {
     status: StatusCodes.Ok /* Defaults to 200 */,
-    body: mapToCountersignWithId(results[0]),
+    body: mapTo<CountersignWithId>(results[0]),
   };
 };
 

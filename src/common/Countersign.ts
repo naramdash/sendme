@@ -1,6 +1,7 @@
 type Countersign = {
   challenge: string;
   password: string;
+  expired: string;
 };
 
 type CountersignWithId = Countersign & { id: string };

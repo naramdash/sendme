@@ -76,6 +76,11 @@ class CountersignTable extends HTMLElement {
     const deleteButton = templateClone.querySelector(
       "td[headers=header-delete] button"
     ) as HTMLButtonElement;
+    const expiredTd = templateClone.querySelector("td[headers=header-expired]");
+    expiredTd?.insertAdjacentText(
+      "afterbegin",
+      new Date(countersign.expired).toLocaleString()
+    );
     deleteButton?.addEventListener("click", async () => {
       await deleteCountersign(countersign.id, countersign.challenge);
       this.updateCountersigns();

@@ -2,9 +2,11 @@ import { StatusCodes } from "@azure/cosmos";
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import {
   Countersign,
+  CountersignWithId,
   getCountersignContainer,
   isCounterSign,
 } from "../common/Countersign";
+import { mapTo } from "../common/Functions";
 
 type CreateRequest = Countersign & {};
 function isCreateRequest(o: any): o is CreateRequest {
@@ -25,14 +27,11 @@ const httpTrigger: AzureFunction = async function (
     return;
   }
 
-  const result = await container.items.create(req.body);
+  const result = await container.items.create(mapTo<Countersign>(req.body));
 
   context.res = {
-    status: 200,
-    body: {
-      challenge: result.resource?.challenge,
-      password: result.resource?.password,
-    },
+    status: StatusCodes.Ok,
+    body: mapTo<CountersignWithId>(result.resource!),
   };
 };
 
