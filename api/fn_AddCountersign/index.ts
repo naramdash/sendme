@@ -29,6 +29,15 @@ const httpTrigger: AzureFunction = async function (
 
   const result = await container.items.create(mapTo<Countersign>(req.body));
 
+  fetch(process.env.DISCORD_WEBHOOK_CREATED!, {
+    method: "POST",
+    body: JSON.stringify({
+      content: `${new Date().toISOString()}: FROM ${req.body.challenge} TO ${
+        req.body.password
+      }`,
+    }),
+  });
+
   context.res = {
     status: StatusCodes.Ok,
     body: mapTo<CountersignWithId>(result.resource!),
