@@ -16,6 +16,13 @@ class CounterSignForm extends HTMLElement {
       CHALLENGE_NAME,
       "text"
     );
+    challengeInput.addEventListener("input", function () {
+      this.value = this.value
+        .replaceAll(" ", "-")
+        .replaceAll(/[~!@#$%^&*()_+={}[\]|\\:;'\"<>,.?\/]/g, "")
+        .toLocaleLowerCase();
+    });
+
     const [passwordLabel, passwordInput] = createInputWithLabel(
       PASSWORD_NAME,
       "url"
@@ -35,8 +42,9 @@ class CounterSignForm extends HTMLElement {
     shadow.appendChild(form);
   }
 }
-
-customElements.define(TAG_NAME, CounterSignForm);
+if (!customElements.get(TAG_NAME)) {
+  customElements.define(TAG_NAME, CounterSignForm);
+}
 
 function createInputWithLabel(
   labelName: string,

@@ -9,7 +9,7 @@
   <body>
     <script>
       (async function () {
-        const challenge = location.pathname.split("/").at(-1);
+        const challenge = location.pathname.slice(4).toLocaleLowerCase();
         try {
           const response = await fetch(`/api/countersigns/${challenge}`);
           const responseAsJson = await response.json();
