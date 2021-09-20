@@ -14,32 +14,30 @@ const TAG_NAME = "countersign-form";
 
 const OPTION_PRESETS = [
   {
-    value: "",
+    value: -1,
     text: "unlimited",
   },
   {
-    value: 1,
+    value: 1 * 60 * 60,
     text: "1 Hour",
   },
   {
-    value: 3,
+    value: 3 * 60 * 60,
     text: "3 Hours",
   },
   {
-    value: 12,
+    value: 12 * 60 * 60,
     text: "12 Hours",
   },
   {
-    value: 24,
+    value: 24 * 60 * 60,
     text: "1 Day",
   },
   {
-    value: 72,
+    value: 72 * 60 * 60,
     text: "3 Days",
   },
 ];
-
-const UNLIMITED_DATE_ISOSTRING = new Date("9999-01-01").toISOString();
 
 class CounterSignForm extends HTMLElement {
   constructor() {
@@ -130,22 +128,11 @@ function createOnSubmitCreateCountersign(
   return async function (event: Event) {
     event.preventDefault();
 
-    const expiredDateISOString =
-      expiredSelect.value === ""
-        ? UNLIMITED_DATE_ISOSTRING
-        : new Date(
-            new Date().setHours(
-              new Date().getHours() + parseInt(expiredSelect.value)
-            )
-          ).toISOString();
-
-    const request = {
-      challenge: challengeInput.value,
-      password: passwordInput.value,
-      expired: expiredDateISOString,
-    };
-
-    await createCountersign(request);
+    await createCountersign(
+      challengeInput.value,
+      passwordInput.value,
+      parseInt(expiredSelect.value)
+    );
 
     const table = document.getElementsByTagName(
       COUNTERSIGN_TABLE_TAG_NAME
