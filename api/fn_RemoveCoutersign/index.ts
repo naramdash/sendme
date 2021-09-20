@@ -2,17 +2,21 @@ import { StatusCodes } from "@azure/cosmos";
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { getCountersignContainer } from "../common/Countersign";
 
+const SECRET = process.env.SECRET!;
+
 type DeleteCountersignRequestBody = {
   id: string;
   challenge: string;
+  secret: string;
 };
 
 function isValidRequestBody(req: any): req is DeleteCountersignRequestBody {
   const hasId = typeof req.id === "string" && req.id.length > 0;
   const hasChallenge =
     typeof req.challenge === "string" && req.challenge.length > 0;
+  const hasSecret = typeof req.secret === "string" && req.secret.length > 0;
 
-  return hasId && hasChallenge;
+  return hasId && hasChallenge && hasSecret;
 }
 
 const httpTrigger: AzureFunction = async function (
@@ -25,6 +29,14 @@ const httpTrigger: AzureFunction = async function (
     };
     return;
   }
+
+  if (SECRET !== req.body.secret) {
+    context.res = {
+      status: StatusCodes.Forbidden,
+    };
+    return;
+  }
+
   const countersigns = getCountersignContainer();
   try {
     await countersigns.item(req.body.id, req.body.challenge).delete();

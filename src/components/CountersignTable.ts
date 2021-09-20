@@ -22,6 +22,11 @@ class CountersignTable extends HTMLElement {
   get tbody() {
     return this.shadowRoot!.querySelector("tbody");
   }
+  get secretInput() {
+    return this.shadowRoot!.querySelector(
+      "input[type=password]"
+    ) as HTMLInputElement;
+  }
 
   static get observedAttributes() {
     return [];
@@ -84,7 +89,14 @@ class CountersignTable extends HTMLElement {
         : new Date(countersign.expired).toLocaleString()
     );
     deleteButton?.addEventListener("click", async () => {
-      await deleteCountersign(countersign.id, countersign.challenge);
+      const secret = this.secretInput?.value;
+      if (secret === undefined || secret.length === 0) {
+        alert("Secret is necessary to delete countersign");
+        this.secretInput.focus();
+        return;
+      }
+
+      await deleteCountersign(countersign.id, countersign.challenge, secret);
       this.updateCountersigns();
     });
 

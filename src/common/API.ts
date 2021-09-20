@@ -29,9 +29,13 @@ export async function createCountersign(
   });
 }
 
-export async function deleteCountersign(id: string, challenge: string) {
+export async function deleteCountersign(
+  id: string,
+  challenge: string,
+  secret: string
+) {
   return await fetch(Routes.COUNTERSIGNS, {
     method: "DELETE",
-    body: JSON.stringify({ id, challenge }),
+    body: JSON.stringify({ id, challenge, secret }),
   });
 }
