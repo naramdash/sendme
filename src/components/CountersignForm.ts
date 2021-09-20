@@ -115,7 +115,7 @@ function createOptionsWithExpiredSelect() {
   const select = document.createElement("select");
   select.append(...options);
   select.setAttribute("required", "");
-  select.value = "";
+  select.value = "-1";
 
   return select;
 }
