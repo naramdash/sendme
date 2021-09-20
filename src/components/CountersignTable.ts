@@ -77,7 +77,7 @@ class CountersignTable extends HTMLElement {
       "td[headers=header-delete] button"
     ) as HTMLButtonElement;
     deleteButton?.addEventListener("click", async () => {
-      await deleteCountersign(countersign.id);
+      await deleteCountersign(countersign.id, countersign.challenge);
       this.updateCountersigns();
     });
 

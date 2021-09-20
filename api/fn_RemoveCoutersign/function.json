@@ -5,7 +5,7 @@
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
-      "route": "countersigns/{id}",
+      "route": "countersigns",
       "methods": ["delete"]
     },
     {

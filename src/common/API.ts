@@ -12,8 +12,9 @@ export async function createCountersign(countersign: Countersign) {
   });
 }
 
-export async function deleteCountersign(id: string) {
-  return await fetch(`${Routes.COUNTERSIGNS}/${id}`, {
+export async function deleteCountersign(id: string, challenge: string) {
+  return await fetch(Routes.COUNTERSIGNS, {
     method: "DELETE",
+    body: JSON.stringify({ id, challenge }),
   });
 }
