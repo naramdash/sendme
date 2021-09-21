@@ -73,11 +73,26 @@ class CountersignTable extends HTMLElement {
       "td[headers=header-challenge]"
     );
     challengeTd?.insertAdjacentText("afterbegin", countersign.challenge);
+
+    const clipboardButton = challengeTd?.querySelector(
+      "button"
+    ) as HTMLButtonElement;
+    clipboardButton.addEventListener("click", async function () {
+      await navigator.clipboard.writeText(
+        `https://sendme.juho.kim/to/${countersign.challenge}`
+      );
+      clipboardButton.innerText = "✅";
+      setTimeout(() => {
+        clipboardButton.innerText = "📋";
+      }, 2000);
+    });
+
     const passwordA = templateClone.querySelector(
       "td[headers=header-password] a"
     );
     passwordA?.setAttribute("href", countersign.password);
     passwordA?.insertAdjacentText("afterbegin", countersign.password);
+
     const deleteButton = templateClone.querySelector(
       "td[headers=header-delete] button"
     ) as HTMLButtonElement;
