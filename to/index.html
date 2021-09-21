@@ -4,13 +4,14 @@
     <meta charset="UTF-8" />
     <!-- <link rel="icon" type="image/svg+xml" href="favicon.svg" /> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>to App</title>
+    <title>Sending you...</title>
   </head>
   <body>
     <script>
       (async function () {
         const challenge = location.pathname.slice(4).toLocaleLowerCase();
         try {
+          document.title = `Sending you to ${challenge}...`;
           const response = await fetch(`/api/countersigns/${challenge}`);
           const responseAsJson = await response.json();
           console.log(responseAsJson.password);
