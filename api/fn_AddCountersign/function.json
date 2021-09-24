@@ -12,6 +12,15 @@
       "type": "http",
       "direction": "out",
       "name": "res"
+    },
+    {
+      "type": "cosmosDB",
+      "direction": "out",
+      "databaseName": "sendme",
+      "collectionName": "countersign",
+      "name": "countersignDocument",
+      "createIfNotExists": true,
+      "connectionStringSetting": "CONNECTION_STRING"
     }
   ],
   "scriptFile": "../dist/fn_AddCountersign/index.js"
