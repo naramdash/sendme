@@ -9,6 +9,15 @@
       "methods": ["get"]
     },
     {
+      "type": "cosmosDB",
+      "direction": "in",
+      "databaseName": "sendme",
+      "collectionName": "countersign",
+      "name": "countersigns",
+      "sqlQuery": "SELECT * FROM countersign c WHERE c.challenge = {challenge}",
+      "connectionStringSetting": "CONNECTION_STRING"
+    },
+    {
       "type": "http",
       "direction": "out",
       "name": "res"

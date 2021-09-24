@@ -1,40 +1,37 @@
 import { StatusCodes } from "@azure/cosmos";
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import {
-  CountersignWithId,
-  getCountersignContainer,
-  makeQueryByChallenge,
-} from "../common/Countersign";
-import { mapTo } from "../common/Functions";
+import { CountersignWithId } from "../common/Countersign";
+
+type ResponseBody = {
+  challenge: string;
+  password: string;
+  expired: string;
+  id: string;
+};
 
 const httpTrigger: AzureFunction = async function (
   context: Context,
-  req: HttpRequest
+  req: HttpRequest,
+  countersigns: CountersignWithId[]
 ): Promise<void> {
   const challenge = req.params.challenge;
-
-  if (typeof challenge === "undefined" || challenge.length == 0) {
+  if (typeof challenge === "undefined" || countersigns.length === 0) {
     context.res = {
       status: StatusCodes.BadRequest,
     };
     return;
   }
 
-  const countersigns = getCountersignContainer();
-  const { resources: results } = await countersigns.items
-    .query<CountersignWithId>(makeQueryByChallenge(challenge))
-    .fetchNext();
-
-  if (results.length <= 0) {
-    context.res = {
-      status: StatusCodes.NotFound,
-    };
-    return;
-  }
+  const resBody: ResponseBody = {
+    challenge: countersigns[0].challenge,
+    password: countersigns[0].password,
+    expired: countersigns[0].expired,
+    id: countersigns[0].id,
+  };
 
   context.res = {
     status: StatusCodes.Ok /* Defaults to 200 */,
-    body: mapTo<CountersignWithId>(results[0]),
+    body: resBody,
   };
 };
 
