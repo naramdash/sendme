@@ -22,22 +22,9 @@ function getCountersignContainer() {
   return getContainer(CONTAINER_COUNTERSIGN_STRING);
 }
 
-function makeQueryByChallenge(challenge: string) {
-  return {
-    query: `SELECT * FROM countersign c WHERE c.challenge = @challenge`,
-    parameters: [
-      {
-        name: "@challenge",
-        value: challenge,
-      },
-    ],
-  };
-}
-
 export {
   Countersign,
   CountersignWithId,
   isCounterSign,
   getCountersignContainer,
-  makeQueryByChallenge,
 };
