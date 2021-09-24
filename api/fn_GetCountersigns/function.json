@@ -9,6 +9,14 @@
       "methods": ["get"]
     },
     {
+      "type": "cosmosDB",
+      "direction": "in",
+      "databaseName": "sendme",
+      "collectionName": "countersign",
+      "connectionStringSetting": "CONNECTION_STRING",
+      "name": "countersigns"
+    },
+    {
       "type": "http",
       "direction": "out",
       "name": "res"
